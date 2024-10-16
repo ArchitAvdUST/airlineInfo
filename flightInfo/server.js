@@ -26,6 +26,24 @@ app.get('/flights', (req,res) => {
     });
 });
 
+app.get('/flights/airlineId/:airlineId', (req, res) => {
+    const sql = "SELECT * FROM flight WHERE airlineId = ?;";
+    db.query(sql, [req.params.airlineId], (err, result) => {
+        if (err) throw err;
+        res.send(result);
+    });
+});
+
+app.get('/flights/passengers/:id' , (req, res) => {
+    axios.get(`http://localhost:3003/passengers/flights/${req.params.id}`)
+        .then(response => {
+            res.send(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+})
+
 app.post('/flights', (req,res) => {
     const { id, airlineId, flightType, model , source, destination} = req.body;
     const sql = "INSERT INTO flight values( ?, ?,?,?,?,?);";

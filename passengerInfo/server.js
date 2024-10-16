@@ -42,3 +42,11 @@ app.get('/passengers/:id', (req, res) => {
         res.send(result);
     });
 });
+
+app.get('/passengers/flights/:flightId', (req,res) => {
+    const sql = 'SELECT * FROM passengers WHERE flightId = ?';
+    db.query(sql, req.params.flightId, (err, result) => {
+        if (err) throw err;
+        res.send(result);
+    });
+})

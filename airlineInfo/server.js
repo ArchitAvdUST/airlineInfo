@@ -34,6 +34,17 @@ app.get('/airlines/:id', (req, res) => {
     });
 });
 
+app.get('/airlines/:id/flights', (req, res) => {
+    axios.get(`http://localhost:3002/flights/airline${req.params.id}`)
+        .then(response => {
+            res.send(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    
+});
+
 app.post('/airlines',(req,res) => {
     const {id, name, headquaters, tier} = req.body;
     const sql = `INSERT INTO airline (id, name, headquaters, tier) VALUES (?,?,?,?);`;
